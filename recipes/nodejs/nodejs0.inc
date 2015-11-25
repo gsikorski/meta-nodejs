@@ -1,12 +1,12 @@
 DESCRIPTION = "Node.js is a platform built on Chrome's JavaScript runtime for easily building fast, scalable network applications."
 HOMEPAGE = "http://nodejs.org"
 
-INC_PR ?= "r0"
+INC_PR ?= "r1"
 
 PR = "${INC_PR}.1"
 
-DEPENDS = "openssl"
-DEPENDS_class-native += " openssl-native"
+DEPENDS = "openssl ninja-native"
+DEPENDS_class-native += " openssl-native ninja-native"
 
 PROVIDES = "node"
 RPROVIDES_${PN} = "node"
@@ -39,7 +39,8 @@ do_configure () {
   ./configure 	--prefix="${prefix}" \
 		--without-snapshot --shared-openssl \
 		--dest-cpu="${@map_dest_cpu(d.getVar('TARGET_ARCH', True), d)}" \
-	 	--dest-os=linux ${ARCHFLAGS}
+	 	--dest-os=linux ${ARCHFLAGS} \
+		--ninja
   unalias g++
 }
 
